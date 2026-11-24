@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub — Raport zajęcia 5 (2026-11-24)</title>
+    <link rel="stylesheet" href="../theme/report.css" />
+  </head>
+  <body class="report">
+    <div class="report-shell">
+      <nav class="report-toolbar" aria-label="Narzędzia raportu">
+        <a href="../index.html">← Spis raportów</a>
+        <button type="button" onclick="window.print()">Drukuj / PDF</button>
+      </nav>
+
+      <header class="report-header">
+        <p class="report-header__brand">EventHub · Raport zaliczeniowy</p>
+        <h1 class="report-header__title">Zajęcia 5</h1>
+        <p class="report-header__subtitle">
+          Krok optymalizacji 1 — responsywne obrazy WebP i lazy loading
+        </p>
+      </header>
+
+      <dl class="report-meta">
+        <div>
+          <dt>Data przygotowania</dt>
+          <dd>2026-11-24</dd>
+        </div>
+        <div>
+          <dt>Zajęcia</dt>
+          <dd>5</dd>
+        </div>
+        <div>
+          <dt>Zespół</dt>
+          <dd>Jan Naklicki (294693), Kajetan Koński (273097)</dd>
+        </div>
+        <div>
+          <dt>Projekt</dt>
+          <dd>EventHub</dd>
+        </div>
+      </dl>
+
+      <section class="report-section" id="postep-od-zajec-3">
+        <h2>1. Postęp od zajęć 3</h2>
+        <p>
+          Po przygotowaniu wersji bazowej rozpoczęto pierwszy z trzech zaplanowanych kroków
+          optymalizacji. Zakres prac ograniczono do warstwy obrazów, aby późniejsze scenariusze
+          porównawcze pozostały od siebie niezależne.
+        </p>
+        <ul class="checklist">
+          <li class="is-done">Zachowano 12 źródłowych plików JPEG 3840×2160 jako baseline.</li>
+          <li class="is-done">Dodano automatyczny generator responsywnych wariantów WebP.</li>
+          <li class="is-done">Wdrożono <code>srcset</code>, <code>sizes</code> i lazy loading na wszystkich stronach.</li>
+          <li class="is-done">Dodano limit 20 MiB dla wygenerowanego zestawu obrazów.</li>
+          <li class="is-done">Zaktualizowano dokumentację uruchomienia i opis kroku 1.</li>
+        </ul>
+      </section>
+
+      <section class="report-section" id="problem">
+        <h2>2. Problem w wersji bazowej</h2>
+        <p>
+          Wersja bazowa wykorzystywała obrazy JPEG 3840×2160 o rozmiarze około 5,8 MiB każdy.
+          Te same pliki były wyświetlane jako znacznie mniejsze kafelki galerii, dlatego przeglądarka
+          pobierała więcej danych niż wymagał rzeczywisty rozmiar elementu na ekranie.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Element baseline</th>
+              <th scope="col">Stan przed krokiem 1</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Format</td>
+              <td>JPEG o jakości 100</td>
+            </tr>
+            <tr>
+              <td>Rozdzielczość</td>
+              <td>3840×2160 dla każdego miejsca użycia</td>
+            </tr>
+            <tr>
+              <td>Liczba plików źródłowych</td>
+              <td>12</td>
+            </tr>
+            <tr>
+              <td>Łączny rozmiar źródeł</td>
+              <td>około 70 MiB</td>
+            </tr>
+            <tr>
+              <td>Strategia ładowania</td>
+              <td>Brak wariantów responsywnych i lazy loading</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="report-section" id="krok-1">
+        <h2>3. Krok optymalizacji 1 — obrazy responsywne</h2>
+        <p>
+          Każdy źródłowy JPEG został przetworzony do trzech wariantów WebP. Atrybuty
+          <code>srcset</code> i <code>sizes</code> przekazują przeglądarce dostępne rozdzielczości,
+          dzięki czemu wybiera ona plik dopasowany do szerokości elementu oraz gęstości pikseli ekranu.
+          Obrazy poza pierwszym ekranem są pobierane dopiero w pobliżu obszaru widocznego.
+        </p>
+
+        <h3>Konfiguracja generatora</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Parametr</th>
+              <th scope="col">Wartość</th>
+              <th scope="col">Uzasadnienie</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Biblioteka</td>
+              <td><code>wasm-image-optimization</code></td>
+              <td>Przetwarzanie przez WebAssembly bez zależności od Sharp i natywnych bibliotek systemowych.</td>
+            </tr>
+            <tr>
+              <td>Format docelowy</td>
+              <td>WebP</td>
+              <td>Nowoczesny format odpowiedni dla fotografii i grafik rastrowych w WWW.</td>
+            </tr>
+            <tr>
+              <td>Szerokości</td>
+              <td>480, 960 i 1600 px</td>
+              <td>Obsługa telefonu, typowego kafelka oraz dużego obrazu na ekranach o wysokim DPR.</td>
+            </tr>
+            <tr>
+              <td>Proporcje</td>
+              <td>16:9</td>
+              <td>Zachowanie proporcji źródłowych obrazów 3840×2160.</td>
+            </tr>
+            <tr>
+              <td>Jakość</td>
+              <td>78</td>
+              <td>Kompromis między szczegółowością obrazu a rozmiarem pliku.</td>
+            </tr>
+            <tr>
+              <td>Budżet zestawu</td>
+              <td>maksymalnie 20 MiB</td>
+              <td>Generator zgłasza błąd, jeżeli wszystkie warianty przekroczą ustalony limit.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Uruchomienie</h3>
+        <p>
+          Po instalacji zależności warianty generowane są poleceniem
+          <code>npm run optimize-images</code>. Pliki źródłowe pozostają w
+          <code>public/images/</code>, a wyniki trafiają do <code>public/images/optimized/</code>.
+        </p>
+      </section>
+
+      <section class="report-section" id="strategia-ladowania">
+        <h2>4. Strategia ładowania w przeglądarce</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Mechanizm</th>
+              <th scope="col">Zastosowanie</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>srcset</code></td>
+              <td>Udostępnia warianty 480w, 960w i 1600w.</td>
+            </tr>
+            <tr>
+              <td><code>sizes</code></td>
+              <td>Opisuje przewidywaną szerokość kafelka dla telefonu, tabletu i desktopu.</td>
+            </tr>
+            <tr>
+              <td><code>loading="lazy"</code></td>
+              <td>Opóźnia pobieranie obrazów znajdujących się poza pierwszym ekranem.</td>
+            </tr>
+            <tr>
+              <td><code>fetchpriority="high"</code></td>
+              <td>Nadaje priorytet pierwszemu widocznemu obrazowi; nie jest łączone z lazy loading.</td>
+            </tr>
+            <tr>
+              <td><code>decoding="async"</code></td>
+              <td>Pozwala przeglądarce dekodować obraz bez niepotrzebnego blokowania renderowania.</td>
+            </tr>
+            <tr>
+              <td><code>width</code>, <code>height</code>, <code>aspect-ratio</code></td>
+              <td>Rezerwuje przestrzeń 16:9 przed zakończeniem pobierania obrazu.</td>
+            </tr>
+          </tbody>
+        </table>
+        <aside class="callout callout-note">
+          <p><strong>Dobór rozdzielczości</strong></p>
+          <p>
+            Przeglądarka nie pobiera kolejno małego i dużego obrazu. Na podstawie
+            <code>srcset</code>, <code>sizes</code>, szerokości viewportu i DPR wybiera od razu
+            najmniejszy wariant wystarczający dla danego urządzenia.
+          </p>
+        </aside>
+      </section>
+
+      <section class="report-section" id="zakres-stron">
+        <h2>5. Zakres zmian w aplikacji</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Plik / widok</th>
+              <th scope="col">Wprowadzona zmiana</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>public/index.html</code></td>
+              <td>Responsywne obrazy kart wydarzeń i galerii strony głównej.</td>
+            </tr>
+            <tr>
+              <td><code>public/events.html</code></td>
+              <td>Responsywne obrazy kart, priorytet dla pierwszej karty.</td>
+            </tr>
+            <tr>
+              <td><code>public/gallery.html</code></td>
+              <td>24 znaczniki obrazów z <code>srcset</code>; pierwszy eager, pozostałe lazy.</td>
+            </tr>
+            <tr>
+              <td><code>public/event-detail.html</code></td>
+              <td>Duży obraz wydarzenia i miniatury galerii korzystają z wariantów WebP.</td>
+            </tr>
+            <tr>
+              <td><code>public/css/components.css</code>, <code>gallery.css</code></td>
+              <td>Rezerwacja proporcji 16:9 oraz <code>object-fit: cover</code>.</td>
+            </tr>
+            <tr>
+              <td><code>scripts/generate-gallery-images.js</code></td>
+              <td>Automatyczna konwersja, zmiana rozmiaru i kontrola budżetu.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="report-section" id="izolacja">
+        <h2>6. Izolacja kroku optymalizacji</h2>
+        <p>
+          Na tym etapie nie zmieniono konfiguracji serwera ani sposobu ładowania skryptów. Pozwala to
+          traktować aktualną wersję jako scenariusz 2, w którym aktywna jest wyłącznie optymalizacja obrazów.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Element</th>
+              <th scope="col">Stan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>WebP + responsywne rozmiary + lazy loading</td>
+              <td class="cell-yes">wdrożone</td>
+            </tr>
+            <tr>
+              <td>Kompresja Gzip / Brotli</td>
+              <td class="cell-no">bez zmian — krok 2</td>
+            </tr>
+            <tr>
+              <td>Cache HTTP</td>
+              <td class="cell-no">bez zmian — krok 3</td>
+            </tr>
+            <tr>
+              <td><code>defer</code> / <code>async</code> dla JavaScript</td>
+              <td class="cell-no">bez zmian — krok 3</td>
+            </tr>
+            <tr>
+              <td>Sztuczne opóźnienia i ciężki JavaScript</td>
+              <td class="cell-no">zachowane jako część baseline</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="report-section" id="walidacja">
+        <h2>7. Walidacja implementacji</h2>
+        <p>
+          W tym terminie sprawdzono poprawność wykonania kroku, ale nie wykonywano jeszcze pomiarów
+          wpływu na TTFB, LCP, TBT ani całkowity czas ładowania. Wyniki wydajnościowe zostaną zebrane
+          w późniejszych raportach zgodnie z harmonogramem projektu.
+        </p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Kontrola techniczna</th>
+              <th scope="col">Stan</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Wygenerowane warianty</td>
+              <td>36 plików WebP — 12 obrazów × 3 rozdzielczości</td>
+            </tr>
+            <tr>
+              <td>Łączny rozmiar wygenerowanego zestawu</td>
+              <td>3,62 MiB z dostępnego budżetu 20 MiB</td>
+            </tr>
+            <tr>
+              <td>Wymiary wynikowe</td>
+              <td>480×270, 960×540 i 1600×900</td>
+            </tr>
+            <tr>
+              <td>Odwołania do plików</td>
+              <td>Zweryfikowane dla statycznej galerii oraz szablonów generowanych przez JavaScript</td>
+            </tr>
+            <tr>
+              <td>Składnia JavaScript</td>
+              <td class="cell-yes">poprawna</td>
+            </tr>
+          </tbody>
+        </table>
+        <aside class="callout callout-note">
+          <p><strong>Zakres raportu</strong></p>
+          <p>
+            Wartość 3,62 MiB jest kontrolą budżetu wygenerowanych zasobów, a nie wynikiem testu
+            wydajności strony. Tabela metryk porównawczych pozostaje na zajęcia 11 i 13.
+          </p>
+        </aside>
+      </section>
+
+      <section class="report-section" id="dalszy-plan">
+        <h2>8. Dalszy plan</h2>
+        <ol>
+          <li>Zachować krok 1 jako odseparowany scenariusz 2 do późniejszych pomiarów.</li>
+          <li>W kolejnym etapie wdrożyć kompresję Gzip/Brotli po stronie Express.</li>
+          <li>Następnie skonfigurować cache HTTP i odroczyć skrypty niekrytyczne.</li>
+          <li>Po ukończeniu kroków zebrać porównywalne wyniki WebPageTest, Lighthouse i DevTools.</li>
+        </ol>
+      </section>
+
+      <section class="report-section" id="postep">
+        <h2>9. Postęp prac</h2>
+        <ul class="checklist">
+          <li class="is-done">Wersja bazowa EventHub zachowana w repozytorium.</li>
+          <li class="is-done">Krok 1 — obrazy WebP, resize, <code>srcset</code> i lazy loading.</li>
+          <li class="is-done">Generator obrazów działa bez Sharp i pilnuje budżetu 20 MiB.</li>
+          <li class="is-done">Dokumentacja kroku 1 i README zostały zaktualizowane.</li>
+          <li class="is-todo">Krok 2 — kompresja Gzip/Brotli.</li>
+          <li class="is-todo">Krok 3 — cache HTTP i <code>defer</code>.</li>
+          <li class="is-todo">Pomiary i porównanie pięciu scenariuszy.</li>
+        </ul>
+      </section>
+
+      <aside class="callout callout-portal" id="eportal">
+        <p><strong>Skrót do e-portalu</strong></p>
+        <p>
+          W projekcie EventHub wdrożono pierwszy krok optymalizacji: responsywne obrazy WebP.
+          Dla 12 źródłowych plików JPEG utworzono po trzy warianty — 480, 960 i 1600 px — przy
+          jakości 78, a następnie zastosowano <code>srcset</code>, <code>sizes</code>, lazy loading
+          oraz priorytet dla pierwszego widocznego obrazu. Generator oparty na WebAssembly tworzy
+          36 plików o łącznym rozmiarze 3,62 MiB i kontroluje limit 20 MiB; pomiary wpływu na
+          wydajność zostaną wykonane w późniejszym etapie.
+        </p>
+      </aside>
+
+      <footer class="report-footer">
+        <p>EventHub · Optymalizacja wydajności WWW · <a href="../index.html">Spis raportów</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
