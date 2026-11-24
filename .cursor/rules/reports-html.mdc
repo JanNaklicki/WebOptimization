@@ -1,0 +1,21 @@
+---
+description: Konwencja raportów HTML w reports/ (EventHub, zajęcia zaliczeniowe)
+globs: reports/**/*.html
+alwaysApply: false
+---
+
+# Raporty HTML — EventHub
+
+Przed utworzeniem lub edycją raportu w `reports/` przeczytaj **`reports/RULES.md`** i stosuj się do niego w całości.
+
+## Skrót
+
+- Kanoniczny format: **HTML** + `../theme/report.css` (z folderu `zajecia-XX`) — bez inline CSS.
+- Nazwa: `RRRR-MM-DD-raport-zajecia-XX.html` w `reports/zajecia-XX/`.
+- Struktura: `body.report` → `report-shell` → `report-header`, `dl.report-meta`, sekcje `section.report-section`, `footer.report-footer`.
+- Tabele: `report-table`; wyniki: `report-table--metrics`, braki: `td.tbd`.
+- Metryki (zawsze): TTFB, Page weight, LCP, TBT, Request number — WPT + DevTools/Lighthouse.
+- Po nowym raporcie: dodaj wpis w `reports/index.html`.
+- Język: polski.
+
+Pełna lista sekcji per numer zajęć i komponenty UI — w `reports/RULES.md`.

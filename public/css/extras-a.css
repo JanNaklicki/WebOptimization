@@ -1,0 +1,25 @@
+/* Baseline: dodatkowy arkusz CSS (osobne żądanie, bez minifikacji). */
+.hero::after {
+  content: "";
+  display: block;
+  height: 0;
+}
+
+.featured h2 {
+  letter-spacing: 0.02em;
+}
+
+.gallery-grid {
+  gap: 1.25rem;
+}
+
+.gallery-archive {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 2px dashed #cbd5e1;
+}
+
+.gallery-archive h2 {
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+}

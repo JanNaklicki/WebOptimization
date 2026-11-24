@@ -1,0 +1,365 @@
+/* EventHub — wspólny motyw raportów HTML (reports/theme/report.css) */
+
+:root {
+  --report-bg: #f1f5f9;
+  --report-surface: #ffffff;
+  --report-text: #0f172a;
+  --report-muted: #64748b;
+  --report-border: #e2e8f0;
+  --report-accent: #4f46e5;
+  --report-accent-soft: #eef2ff;
+  --report-header-bg: linear-gradient(135deg, #312e81 0%, #1e293b 100%);
+  --report-success: #059669;
+  --report-warning: #d97706;
+  --report-font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --report-mono: ui-monospace, "Cascadia Code", "Source Code Pro", monospace;
+  --report-radius: 12px;
+  --report-shadow: 0 4px 24px rgba(15, 23, 42, 0.08);
+  --report-max-width: 920px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.report {
+  margin: 0;
+  font-family: var(--report-font);
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--report-text);
+  background: var(--report-bg);
+}
+
+.report-shell {
+  max-width: var(--report-max-width);
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 3rem;
+}
+
+/* Header */
+.report-header {
+  background: var(--report-header-bg);
+  color: #f8fafc;
+  border-radius: var(--report-radius);
+  padding: 2rem 2rem 1.75rem;
+  box-shadow: var(--report-shadow);
+  margin-bottom: 1.5rem;
+}
+
+.report-header__brand {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+  margin: 0 0 0.5rem;
+}
+
+.report-header__title {
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  line-height: 1.25;
+}
+
+.report-header__subtitle {
+  margin: 0;
+  font-size: 1.05rem;
+  opacity: 0.92;
+  font-weight: 400;
+}
+
+/* Meta grid */
+.report-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem 1.25rem;
+  background: var(--report-surface);
+  border: 1px solid var(--report-border);
+  border-radius: var(--report-radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--report-shadow);
+}
+
+.report-meta dt {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--report-muted);
+  margin: 0;
+}
+
+.report-meta dd {
+  margin: 0.15rem 0 0;
+  font-weight: 500;
+}
+
+/* Sections */
+.report-section {
+  background: var(--report-surface);
+  border: 1px solid var(--report-border);
+  border-radius: var(--report-radius);
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--report-shadow);
+}
+
+.report-section h2 {
+  font-size: 1.2rem;
+  margin: 0 0 1rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 2px solid var(--report-accent-soft);
+  color: var(--report-accent);
+}
+
+.report-section h3 {
+  font-size: 1rem;
+  margin: 1.25rem 0 0.65rem;
+  color: var(--report-text);
+}
+
+.report-section p {
+  margin: 0 0 0.85rem;
+}
+
+.report-section p:last-child {
+  margin-bottom: 0;
+}
+
+.report-section ul,
+.report-section ol {
+  margin: 0 0 1rem;
+  padding-left: 1.35rem;
+}
+
+.report-section li {
+  margin-bottom: 0.35rem;
+}
+
+/* Tables */
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid var(--report-border);
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.report-table thead th {
+  background: var(--report-accent-soft);
+  color: var(--report-text);
+  font-weight: 600;
+}
+
+.report-table tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+.report-table--metrics {
+  font-size: 0.85rem;
+}
+
+.report-table .tbd {
+  color: var(--report-muted);
+  font-style: italic;
+}
+
+.report-table .cell-yes {
+  color: var(--report-success);
+  font-weight: 600;
+}
+
+.report-table .cell-no {
+  color: var(--report-muted);
+}
+
+/* Callouts */
+.callout {
+  border-radius: 8px;
+  padding: 1rem 1.15rem;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+
+.callout-portal {
+  background: var(--report-accent-soft);
+  border-left: 4px solid var(--report-accent);
+}
+
+.callout-note {
+  background: #fffbeb;
+  border-left: 4px solid var(--report-warning);
+  color: #78350f;
+}
+
+.callout p {
+  margin: 0.35rem 0;
+}
+
+.callout p:first-child {
+  margin-top: 0;
+}
+
+.callout p:last-child {
+  margin-bottom: 0;
+}
+
+/* Description block (3 sentences) */
+.desc-block {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--report-border);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+/* Checklist */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.checklist li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.checklist li::before {
+  position: absolute;
+  left: 0;
+  font-weight: 700;
+}
+
+.checklist li.is-done::before {
+  content: "✓";
+  color: var(--report-success);
+}
+
+.checklist li.is-todo::before {
+  content: "○";
+  color: var(--report-muted);
+}
+
+code,
+.report-section kbd {
+  font-family: var(--report-mono);
+  font-size: 0.88em;
+  background: #f1f5f9;
+  padding: 0.12em 0.4em;
+  border-radius: 4px;
+  border: 1px solid var(--report-border);
+}
+
+/* Footer & nav */
+.report-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--report-muted);
+  margin-top: 2rem;
+}
+
+.report-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.report-toolbar a,
+.report-toolbar button {
+  font: inherit;
+  font-size: 0.875rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  border: 1px solid var(--report-border);
+  background: var(--report-surface);
+  color: var(--report-accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.report-toolbar a:hover,
+.report-toolbar button:hover {
+  background: var(--report-accent-soft);
+}
+
+/* Index page */
+.report-index {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem;
+}
+
+.report-index h1 {
+  font-size: 1.75rem;
+}
+
+.report-index ul {
+  list-style: none;
+  padding: 0;
+}
+
+.report-index li {
+  margin-bottom: 0.75rem;
+}
+
+.report-index a {
+  color: var(--report-accent);
+  font-weight: 500;
+}
+
+.report-index .report-header {
+  margin-bottom: 1.5rem;
+}
+
+.report-index .note-muted {
+  text-align: left;
+  margin: 0;
+  color: var(--report-muted);
+  font-size: 0.95rem;
+}
+
+@media print {
+  body.report {
+    background: #fff;
+  }
+
+  .report-shell {
+    padding: 0;
+    max-width: none;
+  }
+
+  .report-toolbar {
+    display: none;
+  }
+
+  .report-header,
+  .report-section,
+  .report-meta {
+    box-shadow: none;
+    break-inside: avoid;
+  }
+
+  .report-section {
+    page-break-inside: avoid;
+  }
+}

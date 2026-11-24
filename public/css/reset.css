@@ -1,0 +1,25 @@
+/* EventHub reset — unminified baseline stylesheet */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+img {
+  max-width: none; /* baseline: do not scale down oversized assets in CSS */
+  display: block;
+}
+
+a {
+  color: #4f46e5;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}

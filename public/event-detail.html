@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Szczegóły wydarzenia — EventHub</title>
+    <link rel="stylesheet" href="/css/reset.css" />
+    <link rel="stylesheet" href="/css/layout.css" />
+    <link rel="stylesheet" href="/css/components.css" />
+    <link rel="stylesheet" href="/css/gallery.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="/js/modal.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="logo" href="/">EventHub</a>
+        <nav class="main-nav">
+          <a href="/events.html">← Wróć do listy</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container page" id="event-detail">
+      <p>Ładowanie…</p>
+    </main>
+
+    <script>
+      var params = new URLSearchParams(window.location.search);
+      var id = params.get("id");
+      function responsiveImage(src, alt, options) {
+        var imageId = src.match(/gallery-(\d+)/)[1];
+        var base = "/images/optimized/gallery-" + imageId;
+        var settings = options || {};
+        return (
+          '<img class="' + settings.className + '" src="' + base + '-480.webp" ' +
+          'srcset="' + base + '-480.webp 480w, ' + base + '-960.webp 960w, ' + base + '-1600.webp 1600w" ' +
+          'sizes="' + settings.sizes + '" alt="' + alt + '" width="1600" height="900" decoding="async" ' +
+          (settings.eager ? 'fetchpriority="high"' : 'loading="lazy"') + ' />'
+        );
+      }
+      fetch("/api/events/" + encodeURIComponent(id))
+        .then(function (r) {
+          return r.json();
+        })
+        .then(function (ev) {
+          if (ev.error) {
+            document.getElementById("event-detail").innerHTML = "<p>Nie znaleziono wydarzenia.</p>";
+            return;
+          }
+          var galleryHtml = ev.gallery
+            .map(function (src) {
+              return (
+                responsiveImage(src, "Zdjęcie z " + ev.title, {
+                  className: "detail-thumb",
+                  sizes: "(max-width: 720px) 92vw, (max-width: 1100px) 45vw, 350px",
+                }) +
+                responsiveImage(src, "Duplikat " + ev.title, {
+                  className: "detail-thumb",
+                  sizes: "(max-width: 720px) 92vw, (max-width: 1100px) 45vw, 350px",
+                })
+              );
+            })
+            .join("");
+          document.getElementById("event-detail").innerHTML =
+            '<h1>' +
+            ev.title +
+            "</h1>" +
+            responsiveImage(ev.heroImage, ev.title, {
+              className: "detail-hero",
+              sizes: "(max-width: 1195px) 92vw, 1100px",
+              eager: true,
+            }) +
+            "<p>" +
+            ev.description +
+            "</p>" +
+            "<ul>" +
+            "<li><strong>Data:</strong> " +
+            ev.date +
+            "</li>" +
+            "<li><strong>Miejsce:</strong> " +
+            ev.venue +
+            ", " +
+            ev.city +
+            "</li>" +
+            "<li><strong>Cena:</strong> " +
+            ev.pricePln +
+            " PLN</li>" +
+            "</ul>" +
+            '<div class="video-wrap"><iframe width="560" height="315" src="' +
+            ev.videoUrl +
+            '" title="Wideo promocyjne"></iframe></div>' +
+            "<h2>Galeria</h2>" +
+            '<div class="gallery-grid">' +
+            galleryHtml +
+            "</div>" +
+            '<form class="ticket-form" onsubmit="alert(\'Demo rezerwacji — brak płatności\'); return false;">' +
+            "<label>Liczba biletów <input type=\"number\" min=\"1\" max=\"10\" value=\"1\" required /></label>" +
+            '<button type="submit" class="btn btn-primary">Zarezerwuj bilety</button>' +
+            "</form>";
+        });
+    </script>
+  </body>
+</html>

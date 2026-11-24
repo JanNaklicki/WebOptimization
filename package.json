@@ -1,0 +1,21 @@
+{
+  "name": "eventhub",
+  "version": "0.1.0",
+  "private": true,
+  "description": "EventHub – local events portal (performance optimization course project)",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "generate-gallery": "node scripts/generate-gallery-images.js",
+    "optimize-images": "node scripts/generate-gallery-images.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "wasm-image-optimization": "^2.0.13"
+  }
+}

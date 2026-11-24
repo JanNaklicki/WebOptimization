@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub — Raport zajęcia XX (RRRR-MM-DD)</title>
+    <link rel="stylesheet" href="../theme/report.css" />
+  </head>
+  <body class="report">
+    <div class="report-shell">
+      <nav class="report-toolbar" aria-label="Narzędzia raportu">
+        <a href="../index.html">← Spis raportów</a>
+        <button type="button" onclick="window.print()">Drukuj / PDF</button>
+      </nav>
+
+      <header class="report-header">
+        <p class="report-header__brand">EventHub · Raport zaliczeniowy</p>
+        <h1 class="report-header__title">Zajęcia XX</h1>
+        <p class="report-header__subtitle"><!-- Krótki opis zakresu tej wysyłki --></p>
+      </header>
+
+      <dl class="report-meta">
+        <div>
+          <dt>Data przygotowania</dt>
+          <dd>RRRR-MM-DD</dd>
+        </div>
+        <div>
+          <dt>Zajęcia</dt>
+          <dd>XX</dd>
+        </div>
+        <div>
+          <dt>Zespół</dt>
+          <dd>Jan Naklicki, Kajetan Koński</dd>
+        </div>
+      </dl>
+
+      <!-- Sekcje obowiązkowe zależą od numeru zajęć — patrz reports/RULES.md §6 -->
+
+      <section class="report-section" id="temat">
+        <h2>1. Temat projektu</h2>
+        <p><!-- … --></p>
+      </section>
+
+      <section class="report-section" id="postep">
+        <h2>N. Postęp prac</h2>
+        <ul class="checklist">
+          <li class="is-todo"><!-- … --></li>
+        </ul>
+      </section>
+
+      <aside class="callout callout-portal" id="eportal">
+        <p><strong>Skrót do e-portalu</strong></p>
+        <p><!-- Temat, zespół, technologie, 3 zdania --></p>
+      </aside>
+
+      <footer class="report-footer">
+        <p>EventHub · Optymalizacja wydajności WWW · <a href="../index.html">Spis raportów</a></p>
+      </footer>
+    </div>
+  </body>
+</html>

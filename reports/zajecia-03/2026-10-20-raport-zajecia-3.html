@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EventHub — Raport zajęcia 3 (2026-10-20)</title>
+    <link rel="stylesheet" href="../theme/report.css" />
+  </head>
+  <body class="report">
+    <div class="report-shell">
+      <nav class="report-toolbar" aria-label="Narzędzia raportu">
+        <a href="../index.html">← Spis raportów</a>
+        <button type="button" onclick="window.print()">Drukuj / PDF</button>
+      </nav>
+
+      <header class="report-header">
+        <p class="report-header__brand">EventHub · Raport zaliczeniowy</p>
+        <h1 class="report-header__title">Zajęcia 3</h1>
+        <p class="report-header__subtitle">
+          Temat projektu, zespół, technologie, opis, plan prac i metodologia pomiarów
+        </p>
+      </header>
+
+      <dl class="report-meta">
+        <div>
+          <dt>Data przygotowania</dt>
+          <dd>2026-10-20</dd>
+        </div>
+        <div>
+          <dt>Zajęcia</dt>
+          <dd>3</dd>
+        </div>
+        <div>
+          <dt>Zespół</dt>
+          <dd>Jan Naklicki(294693), Kajetan Koński(273097)</dd>
+        </div>
+        <div>
+          <dt>Projekt</dt>
+          <dd>EventHub</dd>
+        </div>
+      </dl>
+
+      <section class="report-section" id="temat">
+        <h2>1. Temat projektu</h2>
+        <p>
+          <strong>EventHub</strong> — interaktywny portal lokalnych koncertów, festiwali i wydarzeń
+          kulturalnych.
+        </p>
+        <p>
+          Użytkownicy przeglądają harmonogram wydarzeń, szczegóły imprez, galerie zdjęć z poprzednich
+          edycji, materiały wideo oraz formularz rezerwacji biletów (demo).
+        </p>
+      </section>
+
+      <section class="report-section" id="zespol">
+        <h2>2. Zespół</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Osoba</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Jan Naklicki</strong></td>
+            </tr>
+            <tr>
+              <td><strong>Kajetan Koński</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="report-section" id="technologie">
+        <h2>3. Technologie</h2>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Warstwa</th>
+              <th scope="col">Wybór</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Frontend</td>
+              <td>HTML5, CSS3, JavaScript (Vanilla JS)</td>
+            </tr>
+            <tr>
+              <td>Backend</td>
+              <td>Node.js + Express</td>
+            </tr>
+            <tr>
+              <td>Dane</td>
+              <td>JSON (<code>data/events.json</code>)</td>
+            </tr>
+            <tr>
+              <td>Uruchomienie</td>
+              <td><code>npm start</code> → <code>http://localhost:3001</code> (domyślny port)</td>
+            </tr>
+            <tr>
+              <td>Obrazy baseline</td>
+              <td>
+                12 plików JPEG 3840×2160 (~5,8 MB każdy), skrypt
+                <code>npm run generate-gallery</code>
+              </td>
+            </tr>
+            <tr>
+              <td>Opóźnienia serwera (baseline)</td>
+              <td>
+                Middleware w <code>server.js</code>: HTML ~800 ms, API ~1200 ms, obrazy ~450 ms na żądanie
+                (zmienne <code>BASELINE_*_LATENCY_MS</code>)
+              </td>
+            </tr>
+            <tr>
+              <td>Narzędzia pomiarowe</td>
+              <td>
+                <strong>WebPageTest</strong>, <strong>Lighthouse</strong> (Chrome + wyniki WPT),
+                <strong>Chrome DevTools</strong> (Network + Lighthouse)
+              </td>
+            </tr>
+            <tr>
+              <td>Optymalizacje (kolejne zajęcia)</td>
+              <td>
+                Squoosh / CLI, moduł <code>compression</code>, nagłówki <code>Cache-Control</code>,
+                <code>loading="lazy"</code>, <code>defer</code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="report-section" id="opis">
+        <h2>4. Opis projektu (3 zdania)</h2>
+        <div class="desc-block">
+          <p>
+            EventHub to aplikacja webowa umożliwiająca użytkownikom odkrywanie lokalnych koncertów i
+            wydarzeń kulturalnych wraz z harmonogramem, galeriami zdjęć oraz rezerwacją biletów. Wersja
+            początkowa celowo serwuje ciężkie, nieskompresowane zasoby statyczne, duże obrazy w wysokiej
+            rozdzielczości oraz skrypty blokujące renderowanie, aby odzwierciedlić realistycznie wolny
+            portal. W kolejnych etapach projektu włączane są stopniowo optymalizacje (WebP i lazy loading,
+            kompresja Gzip/Brotli, cache HTTP i defer skryptów), a uzyskane korzyści mierzone są
+            metrykami TTFB, wagą strony, LCP, TBT i liczbą żądań.
+          </p>
+        </div>
+      </section>
+
+      <section class="report-section" id="plan">
+        <h2>5. Co planujemy zrobić</h2>
+
+        <h3>Stan na zajęcia 3</h3>
+        <ul>
+          <li>
+            Działający szkielet: strona główna, lista wydarzeń, szczegóły, galeria
+            (<code>/gallery.html</code>).
+          </li>
+          <li>
+            <strong>Baseline (scenariusz 1):</strong> patrz lista poniżej — strona
+            testowa <code>/gallery.html</code>.
+          </li>
+        </ul>
+
+        <h3>Techniki spowolnienia (baseline v2)</h3>
+        <ul>
+          <li>Brak kompresji HTTP i brak cache (<code>Cache-Control: no-store</code>).</li>
+          <li>
+            Sztuczne opóźnienia Express na HTML, API, CSS/JS i każdy plik w
+            <code>/images/</code>.
+          </li>
+          <li>
+            <code>/gallery.html</code>: 12 obrazów 4K × 2 sekcje (24 tagi <code>&lt;img&gt;</code>, ~140 MB
+            transferu przy pełnym przeładowaniu).
+          </li>
+          <li>
+            Synchroniczne XHR (<code>/api/telemetry/bootstrap</code>, ~768 KB JSON) + blokada wątku
+            głównego ~1,5 s (<code>heavy-main-thread.js</code>) w <code>&lt;head&gt;</code>.
+          </li>
+          <li>
+            Wiele render-blocking CSS/JS (Bootstrap, Font Awesome, jQuery, 6+ lokalnych skryptów).
+          </li>
+          <li>Strona główna: dodatkowo wszystkie 12 miniatur 4K; szczegóły wydarzenia: każde zdjęcie ×2.</li>
+        </ul>
+        <p>
+          <strong>Oczekiwany rząd wielkości (scen. 1, <code>/gallery.html</code>):</strong> TTFB &gt; 800 ms,
+          page weight &gt; 100 MB, LCP wielokrotne sekundy, TBT &gt; 500 ms, requests &gt; 40.
+        </p>
+
+        <h3>Trzy kroki optymalizacji</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Krok</th>
+              <th scope="col">Optymalizacja</th>
+              <th scope="col">Opis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Obrazy WebP + lazy loading</td>
+              <td>Konwersja galerii, resize, <code>loading="lazy"</code></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Kompresja Gzip / Brotli</td>
+              <td>Kompresja HTML, CSS, JS po stronie serwera</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Cache + defer</td>
+              <td><code>Cache-Control</code> dla assetów, <code>defer</code>/<code>async</code> dla JS</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Macierz scenariuszy testowych</h3>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Scenariusz</th>
+              <th scope="col">Krok 1 (WebP + lazy)</th>
+              <th scope="col">Krok 2 (Gzip/Brotli)</th>
+              <th scope="col">Krok 3 (cache + defer)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1 — baseline</td>
+              <td class="cell-no">nie</td>
+              <td class="cell-no">nie</td>
+              <td class="cell-no">nie</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td class="cell-yes">tak</td>
+              <td class="cell-no">nie</td>
+              <td class="cell-no">nie</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td class="cell-no">nie</td>
+              <td class="cell-yes">tak</td>
+              <td class="cell-no">nie</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td class="cell-no">nie</td>
+              <td class="cell-no">nie</td>
+              <td class="cell-yes">tak</td>
+            </tr>
+            <tr>
+              <td>5 — pełna optymalizacja</td>
+              <td class="cell-yes">tak</td>
+              <td class="cell-yes">tak</td>
+              <td class="cell-yes">tak</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          <strong>Strona referencyjna do pomiarów:</strong>
+          <code>http://&lt;host&gt;/gallery.html</code> (największy transfer danych).
+        </p>
+
+        <h3>Po zajęciach 3</h3>
+        <ol>
+          <li>Publiczny URL (ngrok / hosting) pod WebPageTest, jeśli wymagane.</li>
+          <li>Scenariusz 1 (baseline) — wyniki w raporcie na zajęcia 11 / 13.</li>
+          <li>Opis kroku 1 optymalizacji — raport na zajęcia 5.</li>
+        </ol>
+      </section>
+
+      <section class="report-section" id="metryki-definicje">
+        <h2>6. Metryki wydajności — definicje</h2>
+        <p>Wybrane <strong>5 metryk</strong> zgodnie z wymaganiami raportu końcowego:</p>
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th scope="col">Metryka</th>
+              <th scope="col">Definicja</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>TTFB</strong></td>
+              <td>Czas od wysłania żądania dokumentu HTML do pierwszego bajtu odpowiedzi serwera.</td>
+            </tr>
+            <tr>
+              <td><strong>Page weight</strong></td>
+              <td>Łączna liczba bajtów pobranych przy ładowaniu strony (wszystkie zasoby).</td>
+            </tr>
+            <tr>
+              <td><strong>LCP</strong></td>
+              <td>Czas do wyświetlenia największego elementu treści w obszarze widocznym.</td>
+            </tr>
+            <tr>
+              <td><strong>TBT</strong></td>
+              <td>
+                Suma okresów blokady wątku głównego przez JS (&gt;50 ms) — wpływ na interaktywność.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Request number</strong></td>
+              <td>Liczba żądań HTTP podczas ładowania strony.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="report-section" id="metryki-narzedzia">
+        <h2>7. Te same metryki: WebPageTest, Lighthouse, DevTools</h2>
+        <ul>
+          <li><strong>LCP</strong> i <strong>TBT</strong> — zawsze z raportu <strong>Lighthouse</strong> (lab).</li>
+          <li>
+            <strong>TTFB</strong>, <strong>page weight</strong>, <strong>request number</strong> — z warstwy
+            sieciowej; dla każdego scenariusza ten sam sposób odczytu (tabela poniżej).
+          </li>
+          <li>
+            Stałe ustawienia: ten sam URL, throttling (np. Slow 4G + CPU 4×), cache wyłączony w DevTools,
+            w WPT ten sam location / connection / 3 przebiegi.
+          </li>
+        </ul>
+
+        <h3>Mapowanie narzędzie → metryka</h3>
+        <table class="report-table report-table--metrics">
+          <thead>
+            <tr>
+              <th scope="col">Metryka</th>
+              <th scope="col">WebPageTest</th>
+              <th scope="col">Lighthouse (Chrome)</th>
+              <th scope="col">Chrome DevTools</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>TTFB</td>
+              <td>First View → TTFB</td>
+              <td>Diagnostics → Server response times</td>
+              <td>Network → <code>gallery.html</code> → Waiting for server response</td>
+            </tr>
+            <tr>
+              <td>Page weight</td>
+              <td>Bytes In (First View)</td>
+              <td>Total byte weight</td>
+              <td>Network → suma <strong>Transferred</strong></td>
+            </tr>
+            <tr>
+              <td>LCP</td>
+              <td>Lighthouse / Web Vitals w WPT</td>
+              <td>Performance → LCP</td>
+              <td>Lighthouse → LCP</td>
+            </tr>
+            <tr>
+              <td>TBT</td>
+              <td>Lighthouse w WPT</td>
+              <td>Performance → TBT</td>
+              <td>Lighthouse → TBT</td>
+            </tr>
+            <tr>
+              <td>Request number</td>
+              <td>Requests (First View)</td>
+              <td>Podsumowanie audytu</td>
+              <td>Network → liczba żądań po load</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h3>Szablon tabeli wyników</h3>
+        <table class="report-table report-table--metrics">
+          <thead>
+            <tr>
+              <th scope="col">Scen.</th>
+              <th scope="col">Narzędzie</th>
+              <th scope="col">TTFB</th>
+              <th scope="col">Page weight</th>
+              <th scope="col">LCP</th>
+              <th scope="col">TBT</th>
+              <th scope="col">Requests</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>WebPageTest</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+            </tr>
+            <tr>
+              <td>1</td>
+              <td>DevTools + Lighthouse</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+              <td class="tbd">TBD</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>
+          Po włączeniu Gzip (krok 2) nadal używamy kolumny <strong>Transferred</strong> w DevTools (= bajty
+          pobrane, spójne z Bytes In w WPT).
+        </p>
+      </section>
+
+      <section class="report-section" id="postep">
+        <h2>8. Postęp prac</h2>
+        <ul class="checklist">
+          <li class="is-done">Ustalony temat i podział ról (Jan Naklicki, Kajetan Koński).</li>
+          <li class="is-done">Wybrane technologie i opis 3-zdaniowy.</li>
+          <li class="is-done">Zaimplementowany baseline EventHub w repozytorium.</li>
+          <li class="is-done">Wygenerowana ciężka galeria JPEG (12 × ~5,8 MB).</li>
+          <li class="is-done">
+            Wzmocniony baseline: opóźnienia serwera, podwójna galeria, synchroniczny XHR, ciężki JS.
+          </li>
+          <li class="is-todo">Publiczny URL do testów WebPageTest.</li>
+          <li class="is-todo">Tabela wyników scenariusza 1 — przed raportem na zajęcia 11.</li>
+        </ul>
+      </section>
+
+    </div>
+  </body>
+</html>

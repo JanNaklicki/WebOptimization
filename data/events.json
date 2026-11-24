@@ -1,0 +1,59 @@
+[
+  {
+    "id": 1,
+    "title": "Neon Nights Festival",
+    "date": "2026-11-14",
+    "venue": "Stadion Miejski",
+    "city": "Kraków",
+    "genre": "Electronic",
+    "pricePln": 189,
+    "description": "Dwudniowy festiwal muzyki elektronicznej z trzema scenami i strefą food trucków.",
+    "heroImage": "/images/gallery-01.jpg",
+    "gallery": [
+      "/images/gallery-01.jpg",
+      "/images/gallery-02.jpg",
+      "/images/gallery-03.jpg",
+      "/images/gallery-04.jpg",
+      "/images/gallery-05.jpg",
+      "/images/gallery-06.jpg"
+    ],
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    "id": 2,
+    "title": "Jazz on the River",
+    "date": "2026-10-25",
+    "venue": "Bulwary Wiślane",
+    "city": "Warszawa",
+    "genre": "Jazz",
+    "pricePln": 79,
+    "description": "Wieczór jazzu na żywo nad Wisłą — lokalni artyści i goście specjalni.",
+    "heroImage": "/images/gallery-05.jpg",
+    "gallery": [
+      "/images/gallery-05.jpg",
+      "/images/gallery-06.jpg",
+      "/images/gallery-07.jpg",
+      "/images/gallery-08.jpg"
+    ],
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  },
+  {
+    "id": 3,
+    "title": "Indie Stage Sessions",
+    "date": "2026-12-03",
+    "venue": "Klub Podziemie",
+    "city": "Wrocław",
+    "genre": "Indie Rock",
+    "pricePln": 59,
+    "description": "Cztery zespoły indie w jeden wieczór — kameralna scena i merch od artystów.",
+    "heroImage": "/images/gallery-08.jpg",
+    "gallery": [
+      "/images/gallery-08.jpg",
+      "/images/gallery-09.jpg",
+      "/images/gallery-10.jpg",
+      "/images/gallery-11.jpg",
+      "/images/gallery-12.jpg"
+    ],
+    "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ"
+  }
+]

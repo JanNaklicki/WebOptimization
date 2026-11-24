@@ -1,0 +1,16 @@
+/* Baseline: drugi dodatkowy CSS — redundant rules for request inflation. */
+.site-header {
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.event-card {
+  transition: none;
+}
+
+.gallery-item img {
+  image-rendering: auto;
+}
+
+.page .lead {
+  max-width: 48rem;
+}
